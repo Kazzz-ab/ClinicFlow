@@ -13,6 +13,7 @@ const apptInclude = {
 router.get('/', async (req, res, next) => {
   try {
     const { date, doctor, patient, status, page = 1, limit = 20 } = req.query;
+    const safeLimit = Math.min(Number(limit), 200);
     const where = {};
     if (date) {
       const start = new Date(date); start.setHours(0, 0, 0, 0);
@@ -22,9 +23,9 @@ router.get('/', async (req, res, next) => {
     if (doctor) where.doctorId = doctor;
     if (patient) where.patientId = patient;
     if (status) where.status = status;
-    const skip = (Number(page) - 1) * Number(limit);
+    const skip = Math.max(0, (Number(page) - 1) * safeLimit);
     const [appointments, total] = await Promise.all([
-      prisma.appointment.findMany({ where, skip, take: Number(limit), include: apptInclude, orderBy: [{ date: 'asc' }, { startTime: 'asc' }] }),
+      prisma.appointment.findMany({ where, skip, take: safeLimit, include: apptInclude, orderBy: [{ date: 'asc' }, { startTime: 'asc' }] }),
       prisma.appointment.count({ where }),
     ]);
     res.json({ appointments: withId(appointments), total });
