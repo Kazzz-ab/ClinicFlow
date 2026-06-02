@@ -1,88 +1,54 @@
 import 'dotenv/config';
-import mongoose from 'mongoose';
-import { connectDB } from '../config/db.js';
-import User from '../models/User.js';
-import Patient from '../models/Patient.js';
-import Doctor from '../models/Doctor.js';
-import Appointment from '../models/Appointment.js';
-import Invoice from '../models/Invoice.js';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
-const PATIENTS = [
-  { firstName: 'Sarah', lastName: 'Mitchell', dateOfBirth: '1988-04-15', gender: 'female', email: 'sarah.mitchell@email.com', phone: '+1-555-0101', bloodGroup: 'A+', insuranceProvider: 'BlueCross' },
-  { firstName: 'James', lastName: 'Okafor', dateOfBirth: '1975-09-22', gender: 'male', email: 'james.okafor@email.com', phone: '+1-555-0102', bloodGroup: 'O+', insuranceProvider: 'Aetna' },
-  { firstName: 'Elena', lastName: 'Vasquez', dateOfBirth: '1992-01-30', gender: 'female', email: 'elena.v@email.com', phone: '+1-555-0103', bloodGroup: 'B-' },
-  { firstName: 'David', lastName: 'Kim', dateOfBirth: '1965-07-08', gender: 'male', email: 'dkim@email.com', phone: '+1-555-0104', bloodGroup: 'AB+', insuranceProvider: 'UnitedHealth' },
-  { firstName: 'Amara', lastName: 'Osei', dateOfBirth: '2000-11-14', gender: 'female', email: 'amara.osei@email.com', phone: '+1-555-0105', bloodGroup: 'O-' },
-  { firstName: 'Marcus', lastName: 'Thompson', dateOfBirth: '1983-03-27', gender: 'male', email: 'm.thompson@email.com', phone: '+1-555-0106', bloodGroup: 'A-', insuranceProvider: 'Cigna' },
-];
+const prisma = new PrismaClient();
 
-const DOCTORS_DATA = [
-  { name: 'Dr. Chen Wei', email: 'chen.wei@clinicflow.io', specialization: 'Internal Medicine', licenseNumber: 'LIC-001-CA', consultationFee: 150 },
-  { name: 'Dr. Priya Nair', email: 'priya.nair@clinicflow.io', specialization: 'Pediatrics', licenseNumber: 'LIC-002-CA', consultationFee: 130 },
-  { name: 'Dr. Marcus Hill', email: 'marcus.hill@clinicflow.io', specialization: 'Emergency Medicine', licenseNumber: 'LIC-003-CA', consultationFee: 200 },
-];
+async function main() {
+  console.log('Seeding ClinicFlow...');
 
-async function seed() {
-  await connectDB();
-  console.log('Clearing existing data…');
-  await Promise.all([User.deleteMany({}), Patient.deleteMany({}), Doctor.deleteMany({}), Appointment.deleteMany({}), Invoice.deleteMany({})]);
+  await prisma.invoice.deleteMany();
+  await prisma.appointment.deleteMany();
+  await prisma.doctor.deleteMany();
+  await prisma.patient.deleteMany();
+  await prisma.user.deleteMany();
 
-  // Admin user
-  const admin = await User.create({ name: 'Admin User', email: 'admin@clinicflow.io', password: 'Admin123!', role: 'admin' });
-  console.log('Admin: admin@clinicflow.io / Admin123!');
+  const hash = (p) => bcrypt.hash(p, 12);
 
-  // Doctors (each needs a User)
-  const doctors = [];
-  for (const d of DOCTORS_DATA) {
-    const user = await User.create({ name: d.name, email: d.email, password: 'Doctor123!', role: 'doctor' });
-    const doc = await Doctor.create({ user: user._id, specialization: d.specialization, licenseNumber: d.licenseNumber, consultationFee: d.consultationFee });
-    doctors.push(doc);
-  }
-  console.log(`Created ${doctors.length} doctors`);
+  const adminUser = await prisma.user.create({ data: { name: 'Admin User', email: 'admin@clinicflow.com', password: await hash('Admin1234!'), role: 'admin' } });
+  const drChen = await prisma.user.create({ data: { name: 'Dr. Chen Wei', email: 'chen.wei@clinicflow.com', password: await hash('Doctor1234!'), role: 'doctor' } });
+  const drPriya = await prisma.user.create({ data: { name: 'Dr. Priya Nair', email: 'priya.nair@clinicflow.com', password: await hash('Doctor1234!'), role: 'doctor' } });
+  const drMarcus = await prisma.user.create({ data: { name: 'Dr. Marcus Hill', email: 'marcus.hill@clinicflow.com', password: await hash('Doctor1234!'), role: 'doctor' } });
 
-  // Patients
-  const patients = await Patient.insertMany(PATIENTS);
-  console.log(`Created ${patients.length} patients`);
+  const doc1 = await prisma.doctor.create({ data: { userId: drChen.id, specialization: 'General Practice', licenseNumber: 'MD-10021', consultationFee: 150, availableDays: ['Mon','Tue','Wed','Thu','Fri'] } });
+  const doc2 = await prisma.doctor.create({ data: { userId: drPriya.id, specialization: 'Cardiology', licenseNumber: 'MD-10022', consultationFee: 250, availableDays: ['Mon','Wed','Fri'] } });
+  const doc3 = await prisma.doctor.create({ data: { userId: drMarcus.id, specialization: 'Orthopedics', licenseNumber: 'MD-10023', consultationFee: 200, availableDays: ['Tue','Thu'] } });
 
-  // Appointments
-  const today = new Date();
-  const appts = [];
-  for (let i = 0; i < 6; i++) {
-    const date = new Date(today);
-    date.setDate(today.getDate() + Math.floor(i / 2));
-    appts.push({
-      patient: patients[i]._id,
-      doctor: doctors[i % doctors.length]._id,
-      date,
-      startTime: ['09:00', '10:30', '11:00', '14:15', '15:30', '16:00'][i],
-      type: ['consultation', 'follow-up', 'emergency', 'routine', 'follow-up', 'consultation'][i],
-      status: ['confirmed', 'completed', 'scheduled', 'confirmed', 'scheduled', 'scheduled'][i],
-      fee: doctors[i % doctors.length].consultationFee,
-    });
-  }
-  await Appointment.insertMany(appts);
-  console.log(`Created ${appts.length} appointments`);
+  const patients = await Promise.all([
+    prisma.patient.create({ data: { firstName: 'Sarah', lastName: 'Mitchell', dateOfBirth: new Date('1985-03-12'), gender: 'female', email: 'sarah.mitchell@email.com', phone: '+1-555-0101', bloodGroup: 'A+', insuranceProvider: 'BlueCross' } }),
+    prisma.patient.create({ data: { firstName: 'James', lastName: 'Okafor', dateOfBirth: new Date('1978-07-24'), gender: 'male', email: 'james.okafor@email.com', phone: '+1-555-0102', bloodGroup: 'O+', insuranceProvider: 'Aetna' } }),
+    prisma.patient.create({ data: { firstName: 'Elena', lastName: 'Vasquez', dateOfBirth: new Date('1992-11-05'), gender: 'female', email: 'elena.v@email.com', phone: '+1-555-0103', bloodGroup: 'B-' } }),
+    prisma.patient.create({ data: { firstName: 'David', lastName: 'Kim', dateOfBirth: new Date('1965-01-30'), gender: 'male', email: 'david.kim@email.com', phone: '+1-555-0104', bloodGroup: 'AB+', insuranceProvider: 'United' } }),
+    prisma.patient.create({ data: { firstName: 'Amara', lastName: 'Osei', dateOfBirth: new Date('2001-09-18'), gender: 'female', email: 'amara.osei@email.com', phone: '+1-555-0105', bloodGroup: 'O-' } }),
+  ]);
 
-  // Invoices
-  const invoices = [];
-  for (let i = 0; i < 4; i++) {
-    const amount = (i + 1) * 150;
-    invoices.push({
-      patient: patients[i]._id,
-      invoiceNumber: `INV-CF-${String(i + 1).padStart(5, '0')}`,
-      lineItems: [{ description: 'Medical Consultation', quantity: 1, unitPrice: amount }],
-      subtotal: amount,
-      tax: amount * 0.1,
-      total: amount * 1.1,
-      status: ['paid', 'sent', 'overdue', 'draft'][i],
-      dueDate: new Date(today.getTime() + (i - 1) * 7 * 86400000),
-    });
-  }
-  await Invoice.insertMany(invoices);
-  console.log(`Created ${invoices.length} invoices`);
+  const today = new Date(); today.setHours(9, 0, 0, 0);
+  await Promise.all([
+    prisma.appointment.create({ data: { patientId: patients[0].id, doctorId: doc1.id, date: today, startTime: '09:00', type: 'consultation', status: 'confirmed' } }),
+    prisma.appointment.create({ data: { patientId: patients[1].id, doctorId: doc2.id, date: today, startTime: '10:30', type: 'follow-up', status: 'completed' } }),
+    prisma.appointment.create({ data: { patientId: patients[2].id, doctorId: doc3.id, date: today, startTime: '11:00', type: 'emergency', status: 'scheduled' } }),
+    prisma.appointment.create({ data: { patientId: patients[3].id, doctorId: doc1.id, date: today, startTime: '14:15', type: 'routine', status: 'confirmed' } }),
+    prisma.appointment.create({ data: { patientId: patients[4].id, doctorId: doc2.id, date: today, startTime: '15:30', type: 'follow-up', status: 'scheduled' } }),
+  ]);
 
-  console.log('\n✓ ClinicFlow seeded successfully');
-  await mongoose.disconnect();
+  await Promise.all([
+    prisma.invoice.create({ data: { patientId: patients[0].id, invoiceNumber: 'INV-CF-00001', lineItems: [{ description: 'Consultation', quantity: 1, unitPrice: 150 }], subtotal: 150, total: 150, status: 'paid', paidAt: new Date(), dueDate: new Date(Date.now() + 7*86400000) } }),
+    prisma.invoice.create({ data: { patientId: patients[1].id, invoiceNumber: 'INV-CF-00002', lineItems: [{ description: 'Cardiology Review', quantity: 1, unitPrice: 250 }], subtotal: 250, total: 250, status: 'sent', dueDate: new Date(Date.now() + 14*86400000) } }),
+    prisma.invoice.create({ data: { patientId: patients[2].id, invoiceNumber: 'INV-CF-00003', lineItems: [{ description: 'Emergency Visit', quantity: 1, unitPrice: 400 }], subtotal: 400, total: 400, status: 'overdue', dueDate: new Date(Date.now() - 5*86400000) } }),
+    prisma.invoice.create({ data: { patientId: patients[3].id, invoiceNumber: 'INV-CF-00004', lineItems: [{ description: 'Routine Check', quantity: 1, unitPrice: 120 }], subtotal: 120, total: 120, status: 'draft', dueDate: new Date(Date.now() + 30*86400000) } }),
+  ]);
+
+  console.log('\nClinicFlow seeded! Login: admin@clinicflow.com / Admin1234!');
 }
 
-seed().catch((err) => { console.error(err); process.exit(1); });
+main().catch(console.error).finally(() => prisma.$disconnect());

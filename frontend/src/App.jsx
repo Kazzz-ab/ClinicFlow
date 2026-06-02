@@ -7,6 +7,8 @@ import Patients from './pages/Patients.jsx';
 import Doctors from './pages/Doctors.jsx';
 import Appointments from './pages/Appointments.jsx';
 import Invoices from './pages/Invoices.jsx';
+import Profile from './pages/Profile.jsx';
+import Settings from './pages/Settings.jsx';
 import Login from './pages/Login.jsx';
 
 function ProtectedLayout({ children }) {
@@ -30,6 +32,8 @@ export default function App() {
       <Route path="/doctors" element={<ProtectedLayout><Doctors /></ProtectedLayout>} />
       <Route path="/appointments" element={<ProtectedLayout><Appointments /></ProtectedLayout>} />
       <Route path="/invoices" element={<ProtectedLayout><Invoices /></ProtectedLayout>} />
+      <Route path="/profile" element={<ProtectedLayout><Profile /></ProtectedLayout>} />
+      <Route path="/settings" element={<ProtectedLayout><Settings /></ProtectedLayout>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

@@ -1,7 +1,39 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Search, Plus, Phone, Mail, Calendar, MoreHorizontal, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Users, Search, Plus, Phone, Mail, MoreHorizontal, Pencil, Trash2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import api from '../lib/api.js';
+
+function RowMenu({ onEdit, onDelete }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="relative">
+      <button onClick={() => setOpen(o => !o)} className="p-1.5 rounded-lg hover:bg-[#F1F5F9] text-[#94A3B8]">
+        <MoreHorizontal size={16} />
+      </button>
+      <AnimatePresence>
+        {open && (
+          <>
+            <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 4 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }}
+              className="absolute right-0 z-20 mt-1 w-36 rounded-xl overflow-hidden"
+              style={{ background: 'var(--surface)', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', border: '1px solid rgba(0,0,0,0.06)' }}>
+              <button onClick={() => { setOpen(false); onEdit(); }}
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-left hover:bg-[#F8FAFC] transition-colors"
+                style={{ fontFamily: 'var(--font-body)', color: 'var(--text)' }}>
+                <Pencil size={13} /> Edit
+              </button>
+              <button onClick={() => { setOpen(false); onDelete(); }}
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-left hover:bg-red-50 transition-colors text-red-500"
+                style={{ fontFamily: 'var(--font-body)' }}>
+                <Trash2 size={13} /> Remove
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 function PatientModal({ patient, onClose, onSave }) {
   const isEdit = Boolean(patient?._id);
@@ -100,6 +132,11 @@ export default function Patients() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null); // null | 'new' | patient object
+
+  const handleDelete = async (id) => {
+    await api.delete(`/patients/${id}`);
+    load();
+  };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -204,9 +241,7 @@ export default function Patients() {
                   )}
                 </div>
                 <div className="col-span-1 flex justify-end">
-                  <button onClick={() => setModal(p)} className="p-1.5 rounded-lg hover:bg-[#F1F5F9] text-[#94A3B8]">
-                    <MoreHorizontal size={16} />
-                  </button>
+                  <RowMenu onEdit={() => setModal(p)} onDelete={() => handleDelete(p._id)} />
                 </div>
               </motion.div>
             ))}

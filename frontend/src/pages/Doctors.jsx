@@ -1,12 +1,44 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Stethoscope, Plus, X, MoreHorizontal, Clock } from 'lucide-react';
+import { Stethoscope, Plus, X, MoreHorizontal, Pencil, Trash2, Clock } from 'lucide-react';
 import api from '../lib/api.js';
+
+function CardMenu({ onEdit, onDelete }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="relative">
+      <button onClick={() => setOpen(o => !o)} className="p-1.5 rounded-lg hover:bg-[#F8FAFC] text-[#94A3B8]">
+        <MoreHorizontal size={16} />
+      </button>
+      <AnimatePresence>
+        {open && (
+          <>
+            <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 4 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }}
+              className="absolute right-0 z-20 mt-1 w-36 rounded-xl overflow-hidden"
+              style={{ background: 'var(--surface)', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', border: '1px solid rgba(0,0,0,0.06)' }}>
+              <button onClick={() => { setOpen(false); onEdit(); }}
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-left hover:bg-[#F8FAFC] transition-colors"
+                style={{ fontFamily: 'var(--font-body)', color: 'var(--text)' }}>
+                <Pencil size={13} /> Edit
+              </button>
+              <button onClick={() => { setOpen(false); onDelete(); }}
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-left hover:bg-red-50 transition-colors text-red-500"
+                style={{ fontFamily: 'var(--font-body)' }}>
+                <Trash2 size={13} /> Remove
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 function DoctorModal({ doctor, onClose, onSave }) {
   const isEdit = Boolean(doctor?._id);
   const [form, setForm] = useState({
-    user: doctor?.user?._id || doctor?.user || '',
+    user: doctor?.user?._id || '',
     specialization: doctor?.specialization || '',
     licenseNumber: doctor?.licenseNumber || '',
     consultationFee: doctor?.consultationFee || '',
@@ -75,6 +107,11 @@ export default function Doctors() {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null);
 
+  const handleDelete = async (id) => {
+    await api.delete(`/doctors/${id}`);
+    load();
+  };
+
   const load = useCallback(async () => {
     setLoading(true);
     try { const { data } = await api.get('/doctors'); setDoctors(data); }
@@ -120,9 +157,7 @@ export default function Doctors() {
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.77rem', color: '#0077B6' }}>{doc.specialization}</p>
                   </div>
                 </div>
-                <button onClick={() => setModal(doc)} className="p-1.5 rounded-lg hover:bg-[#F8FAFC] text-[#94A3B8]">
-                  <MoreHorizontal size={16} />
-                </button>
+                <CardMenu onEdit={() => setModal(doc)} onDelete={() => handleDelete(doc._id)} />
               </div>
               <div className="space-y-2.5 mb-4">
                 <div className="flex items-center justify-between">

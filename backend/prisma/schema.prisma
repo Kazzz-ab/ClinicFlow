@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("receptionist")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  doctor    Doctor?
+}
+
+model Patient {
+  id                    String        @id @default(cuid())
+  firstName             String
+  lastName              String
+  dateOfBirth           DateTime?
+  gender                String?
+  email                 String?
+  phone                 String?
+  bloodGroup            String?
+  allergies             String[]      @default([])
+  medicalHistory        String?
+  insuranceProvider     String?
+  insurancePolicyNumber String?
+  isActive              Boolean       @default(true)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  appointments          Appointment[]
+  invoices              Invoice[]
+}
+
+model Doctor {
+  id                String        @id @default(cuid())
+  userId            String        @unique
+  user              User          @relation(fields: [userId], references: [id])
+  specialization    String
+  licenseNumber     String        @unique
+  qualifications    String[]      @default([])
+  consultationFee   Float         @default(0)
+  availableDays     String[]      @default(["Mon", "Tue", "Wed", "Thu", "Fri"])
+  workingHoursStart String        @default("09:00")
+  workingHoursEnd   String        @default("17:00")
+  bio               String?
+  isActive          Boolean       @default(true)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  appointments      Appointment[]
+}
+
+model Appointment {
+  id             String    @id @default(cuid())
+  patientId      String
+  patient        Patient   @relation(fields: [patientId], references: [id])
+  doctorId       String
+  doctor         Doctor    @relation(fields: [doctorId], references: [id])
+  date           DateTime
+  startTime      String
+  endTime        String?
+  type           String    @default("consultation")
+  status         String    @default("scheduled")
+  chiefComplaint String?
+  diagnosis      String?
+  prescription   String?
+  notes          String?
+  fee            Float?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  invoices       Invoice[]
+}
+
+model Invoice {
+  id            String       @id @default(cuid())
+  patientId     String
+  patient       Patient      @relation(fields: [patientId], references: [id])
+  appointmentId String?
+  appointment   Appointment? @relation(fields: [appointmentId], references: [id])
+  invoiceNumber String       @unique
+  lineItems     Json         @default("[]")
+  subtotal      Float
+  tax           Float        @default(0)
+  total         Float
+  status        String       @default("draft")
+  dueDate       DateTime?
+  paidAt        DateTime?
+  notes         String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}

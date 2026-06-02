@@ -114,10 +114,12 @@ export default function Header() {
                     className="absolute right-0 top-full mt-2 w-48 glass rounded-2xl shadow-xl overflow-hidden"
                   >
                     <div className="p-1.5">
-                      <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#0D1B2A]/80 hover:bg-[#0077B6]/8 transition-colors">
+                      <button onClick={() => { setProfileOpen(false); navigate('/profile'); }}
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#0D1B2A]/80 hover:bg-[#0077B6]/8 transition-colors">
                         <User size={15} /> Profile
                       </button>
-                      <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#0D1B2A]/80 hover:bg-[#0077B6]/8 transition-colors">
+                      <button onClick={() => { setProfileOpen(false); navigate('/settings'); }}
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#0D1B2A]/80 hover:bg-[#0077B6]/8 transition-colors">
                         <Settings size={15} /> Settings
                       </button>
                       <div className="my-1 border-t border-[#E2E8F0]" />
