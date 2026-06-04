@@ -130,12 +130,7 @@ cd frontend && npm run dev
 
 Open [http://localhost:5173](http://localhost:5173)
 
-Default seed credentials:
-| Email | Password | Role |
-|---|---|---|
-| `admin@clinicflow.io` | `Admin1234!` | Admin |
-| `dr.smith@clinicflow.io` | `Doctor123!` | Doctor |
-| `reception@clinicflow.io` | `Recept123!` | Receptionist |
+After seeding, log in with the credentials you defined in `backend/src/scripts/seed.js`. Change all passwords immediately after first login.
 
 ---
 
