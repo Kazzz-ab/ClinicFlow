@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Activity, Bell, ChevronDown, LogOut, Menu, Settings, User, X } from 'lucide-react';
+import { Activity, ChevronDown, LogOut, Menu, Moon, Settings, Sun, User, X, ShieldCheck, ClipboardList } from 'lucide-react';
+import NotificationBell from './NotificationBell.jsx';
+import { useDarkMode } from '../../hooks/useDarkMode.js';
 import { useAuth } from '../../hooks/useAuth.js';
 
 const navLinks = [
@@ -10,6 +12,7 @@ const navLinks = [
   { label: 'Doctors', to: '/doctors' },
   { label: 'Appointments', to: '/appointments' },
   { label: 'Invoices', to: '/invoices' },
+  { label: 'Analytics', to: '/analytics' },
 ];
 
 export default function Header() {
@@ -18,6 +21,7 @@ export default function Header() {
   const [profileOpen, setProfileOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [dark, setDark] = useDarkMode();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -79,14 +83,12 @@ export default function Header() {
 
           {/* Right actions */}
           <div className="hidden lg:flex items-center gap-3">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="relative w-10 h-10 rounded-xl flex items-center justify-center text-[#64748B] hover:bg-[#0077B6]/8 transition-colors"
-            >
-              <Bell size={18} />
-              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#06B6A0]" />
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+              onClick={() => setDark(d => !d)}
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-[#64748B] hover:bg-[#0077B6]/8 transition-colors">
+              {dark ? <Sun size={17} /> : <Moon size={17} />}
             </motion.button>
+            <NotificationBell />
 
             <div className="relative">
               <motion.button
@@ -122,6 +124,19 @@ export default function Header() {
                         className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#0D1B2A]/80 hover:bg-[#0077B6]/8 transition-colors">
                         <Settings size={15} /> Settings
                       </button>
+                      {user?.role === 'admin' && (
+                        <>
+                          <div className="my-1 border-t border-[#E2E8F0]" />
+                          <button onClick={() => { setProfileOpen(false); navigate('/admin/users'); }}
+                            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#7C3AED]/80 hover:bg-[#7C3AED]/8 transition-colors">
+                            <ShieldCheck size={15} /> User Management
+                          </button>
+                          <button onClick={() => { setProfileOpen(false); navigate('/admin/audit'); }}
+                            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#7C3AED]/80 hover:bg-[#7C3AED]/8 transition-colors">
+                            <ClipboardList size={15} /> Audit Log
+                          </button>
+                        </>
+                      )}
                       <div className="my-1 border-t border-[#E2E8F0]" />
                       <button
                         onClick={handleLogout}
