@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Activity, ChevronDown, LogOut, Menu, Moon, Settings, Sun, User, X, ShieldCheck, ClipboardList } from 'lucide-react';
+import { Stethoscope, ChevronDown, LogOut, Menu, Moon, Settings, Sun, User, X, ShieldCheck, ClipboardList } from 'lucide-react';
 import NotificationBell from './NotificationBell.jsx';
 import { useDarkMode } from '../../hooks/useDarkMode.js';
 import { useAuth } from '../../hooks/useAuth.js';
@@ -37,7 +37,7 @@ export default function Header() {
       animate={{ y: 0 }}
       transition={{ type: 'spring', stiffness: 120, damping: 20 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass shadow-lg shadow-blue-900/8' : 'bg-transparent'
+        scrolled ? 'glass shadow-lg shadow-emerald-900/8' : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -49,15 +49,15 @@ export default function Header() {
               whileHover={{ rotate: 15, scale: 1.1 }}
               transition={{ type: 'spring', stiffness: 300 }}
               className="w-9 h-9 rounded-xl flex items-center justify-center"
-              style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)' }}
+              style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)' }}
             >
-              <Activity size={18} className="text-white" />
+              <Stethoscope size={18} className="text-white" />
             </motion.div>
             <span
               style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '1.25rem' }}
               className="gradient-text tracking-tight"
             >
-              ClinicFlow
+              Clinio
             </span>
           </Link>
 
@@ -70,8 +70,8 @@ export default function Header() {
                 className={({ isActive }) =>
                   `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? 'bg-[#0077B6]/10 text-[#0077B6]'
-                      : 'text-[#0D1B2A]/70 hover:text-[#0077B6] hover:bg-[#0077B6]/5'
+                      ? 'bg-[#059669]/10 text-[#059669]'
+                      : 'text-[#0A201C]/70 hover:text-[#059669] hover:bg-[#059669]/5'
                   }`
                 }
                 style={{ fontFamily: 'var(--font-body)' }}
@@ -85,7 +85,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-3">
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={() => setDark(d => !d)}
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-[#64748B] hover:bg-[#0077B6]/8 transition-colors">
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-[#64748B] hover:bg-[#059669]/8 transition-colors">
               {dark ? <Sun size={17} /> : <Moon size={17} />}
             </motion.button>
             <NotificationBell />
@@ -94,13 +94,13 @@ export default function Header() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 onClick={() => setProfileOpen(!profileOpen)}
-                className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl hover:bg-[#0077B6]/8 transition-colors"
+                className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl hover:bg-[#059669]/8 transition-colors"
               >
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold"
-                  style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)' }}>
+                  style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)' }}>
                   {user?.name?.charAt(0) || 'U'}
                 </div>
-                <span className="text-sm font-medium text-[#0D1B2A]" style={{ fontFamily: 'var(--font-body)' }}>
+                <span className="text-sm font-medium text-[#0A201C]" style={{ fontFamily: 'var(--font-body)' }}>
                   {user?.name?.split(' ')[0] || 'Account'}
                 </span>
                 <ChevronDown size={14} className={`text-[#64748B] transition-transform ${profileOpen ? 'rotate-180' : ''}`} />
@@ -117,11 +117,11 @@ export default function Header() {
                   >
                     <div className="p-1.5">
                       <button onClick={() => { setProfileOpen(false); navigate('/profile'); }}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#0D1B2A]/80 hover:bg-[#0077B6]/8 transition-colors">
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#0A201C]/80 hover:bg-[#059669]/8 transition-colors">
                         <User size={15} /> Profile
                       </button>
                       <button onClick={() => { setProfileOpen(false); navigate('/settings'); }}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#0D1B2A]/80 hover:bg-[#0077B6]/8 transition-colors">
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-[#0A201C]/80 hover:bg-[#059669]/8 transition-colors">
                         <Settings size={15} /> Settings
                       </button>
                       {user?.role === 'admin' && (
@@ -152,7 +152,7 @@ export default function Header() {
           </div>
 
           {/* Mobile hamburger */}
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 rounded-xl hover:bg-[#0077B6]/8">
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 rounded-xl hover:bg-[#059669]/8">
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
@@ -174,7 +174,7 @@ export default function Header() {
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
                   className={({ isActive }) =>
-                    `block px-4 py-3 rounded-xl text-sm font-medium ${isActive ? 'bg-[#0077B6]/10 text-[#0077B6]' : 'text-[#0D1B2A]/80'}`
+                    `block px-4 py-3 rounded-xl text-sm font-medium ${isActive ? 'bg-[#059669]/10 text-[#059669]' : 'text-[#0A201C]/80'}`
                   }
                 >
                   {link.label}

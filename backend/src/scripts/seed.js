@@ -11,7 +11,7 @@ const monthsAgo    = (n) => { const d = new Date(); d.setMonth(d.getMonth() - n)
 const atTime       = (base, h, m = 0) => { const d = new Date(base); d.setHours(h, m, 0, 0); return d; };
 
 async function main() {
-  console.log('🌱  Seeding ClinicFlow...');
+  console.log('🌱  Seeding Clinio...');
 
   // clear in dependency order
   await prisma.auditLog.deleteMany();
@@ -22,12 +22,12 @@ async function main() {
   await prisma.user.deleteMany();
 
   // ── USERS ──────────────────────────────────────────────────────────────────
-  const adminUser  = await prisma.user.create({ data: { name: 'Admin User',        email: 'admin@clinicflow.io',       password: await hash('Admin1234!'),  role: 'admin' } });
-  const uChen      = await prisma.user.create({ data: { name: 'Dr. Chen Wei',      email: 'chen.wei@clinicflow.io',    password: await hash('Doctor1234!'), role: 'doctor' } });
-  const uPriya     = await prisma.user.create({ data: { name: 'Dr. Priya Nair',    email: 'priya.nair@clinicflow.io',  password: await hash('Doctor1234!'), role: 'doctor' } });
-  const uMarcus    = await prisma.user.create({ data: { name: 'Dr. Marcus Hill',   email: 'marcus.hill@clinicflow.io', password: await hash('Doctor1234!'), role: 'doctor' } });
-  const uLeila     = await prisma.user.create({ data: { name: 'Dr. Leila Hassan',  email: 'leila.hassan@clinicflow.io',password: await hash('Doctor1234!'), role: 'doctor' } });
-  await             prisma.user.create({ data: { name: 'Maya Torres',       email: 'reception@clinicflow.io',   password: await hash('Recept123!'),  role: 'receptionist' } });
+  const adminUser  = await prisma.user.create({ data: { name: 'Admin User',        email: 'admin@clinio.health',       password: await hash('Admin1234!'),  role: 'admin' } });
+  const uChen      = await prisma.user.create({ data: { name: 'Dr. Chen Wei',      email: 'chen.wei@clinio.health',    password: await hash('Doctor1234!'), role: 'doctor' } });
+  const uPriya     = await prisma.user.create({ data: { name: 'Dr. Priya Nair',    email: 'priya.nair@clinio.health',  password: await hash('Doctor1234!'), role: 'doctor' } });
+  const uMarcus    = await prisma.user.create({ data: { name: 'Dr. Marcus Hill',   email: 'marcus.hill@clinio.health', password: await hash('Doctor1234!'), role: 'doctor' } });
+  const uLeila     = await prisma.user.create({ data: { name: 'Dr. Leila Hassan',  email: 'leila.hassan@clinio.health',password: await hash('Doctor1234!'), role: 'doctor' } });
+  await             prisma.user.create({ data: { name: 'Maya Torres',       email: 'reception@clinio.health',   password: await hash('Recept123!'),  role: 'receptionist' } });
 
   // ── DOCTORS ────────────────────────────────────────────────────────────────
   const doc1 = await prisma.doctor.create({ data: { userId: uChen.id,   specialization: 'General Practice', licenseNumber: 'MD-10021', qualifications: ['MBBS','MD'],                  consultationFee: 150, availableDays: ['Mon','Tue','Wed','Thu','Fri'], bio: 'Board-certified GP with 12 years in primary care.' } });
@@ -165,7 +165,7 @@ async function main() {
     await prisma.invoice.create({
       data: {
         patientId: patients[t.p].id,
-        invoiceNumber: `INV-CF-${num}`,
+        invoiceNumber: `INV-CLN-${num}`,
         lineItems: [{ description: t.desc, quantity: 1, unitPrice: t.fee }],
         subtotal: t.fee, total: t.fee,
         status: t.status,
@@ -177,12 +177,12 @@ async function main() {
   }
   console.log(`  ✓ ${invoiceDefs.length} invoices`);
 
-  console.log('\n✅  ClinicFlow seeded!');
+  console.log('\n✅  Clinio seeded!');
   console.log('──────────────────────────────────────────────────');
-  console.log('  admin@clinicflow.io      →  Admin1234!   (admin)');
-  console.log('  chen.wei@clinicflow.io   →  Doctor1234!  (doctor)');
-  console.log('  priya.nair@clinicflow.io →  Doctor1234!  (doctor)');
-  console.log('  reception@clinicflow.io  →  Recept123!   (receptionist)');
+  console.log('  admin@clinio.health      →  Admin1234!   (admin)');
+  console.log('  chen.wei@clinio.health   →  Doctor1234!  (doctor)');
+  console.log('  priya.nair@clinio.health →  Doctor1234!  (doctor)');
+  console.log('  reception@clinio.health  →  Recept123!   (receptionist)');
   console.log('──────────────────────────────────────────────────\n');
 }
 

@@ -39,7 +39,7 @@ export default function NotificationBell() {
     <div className="relative" ref={ref}>
       <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
         onClick={() => setOpen(o => !o)}
-        className="relative w-10 h-10 rounded-xl flex items-center justify-center text-[#64748B] hover:bg-[#0077B6]/8 transition-colors">
+        className="relative w-10 h-10 rounded-xl flex items-center justify-center text-[#64748B] hover:bg-[#059669]/8 transition-colors">
         <Bell size={18} />
         {count > 0 && (
           <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-white text-[10px] font-bold px-1"
@@ -74,7 +74,7 @@ export default function NotificationBell() {
                 </div>
               ) : notifications.map((n) => {
                 const Icon = TYPE_ICON[n.type] || Bell;
-                const color = n.type === 'invoice' ? '#EA580C' : '#0077B6';
+                const color = n.type === 'invoice' ? '#EA580C' : '#059669';
                 return (
                   <button key={n.id} onClick={() => { setOpen(false); navigate(n.href); }}
                     className="w-full flex items-start gap-3 px-4 py-3 hover:bg-[#F8FAFC] transition-colors text-left border-b border-[#F8FAFC] last:border-0">

@@ -4,7 +4,7 @@ import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, Tool
 import { TrendingUp } from 'lucide-react';
 import api from '../lib/api.js';
 
-const COLORS = ['#0077B6', '#06B6A0', '#7C3AED', '#EA580C', '#64748B'];
+const COLORS = ['#059669', '#14B8A6', '#7C3AED', '#EA580C', '#64748B'];
 
 const ChartCard = ({ title, children, loading }) => (
   <div className="rounded-2xl p-6" style={{ background: 'var(--surface)', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
@@ -25,7 +25,7 @@ export default function Analytics() {
     <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
       <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#0077B6,#06B6A0)' }}>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#059669,#14B8A6)' }}>
             <TrendingUp size={18} className="text-white" />
           </div>
           <div>
@@ -42,7 +42,7 @@ export default function Analytics() {
               <XAxis dataKey="day" tick={{ fontSize: 11, fontFamily: 'var(--font-body)', fill: '#94A3B8' }} tickLine={false} axisLine={false} />
               <YAxis tick={{ fontSize: 11, fill: '#94A3B8' }} tickLine={false} axisLine={false} allowDecimals={false} />
               <Tooltip contentStyle={{ fontFamily: 'var(--font-body)', fontSize: 12, borderRadius: 8, border: '1px solid #E2E8F0' }} />
-              <Bar dataKey="appointments" fill="#0077B6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="appointments" fill="#059669" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -53,7 +53,7 @@ export default function Analytics() {
               <XAxis dataKey="month" tick={{ fontSize: 11, fontFamily: 'var(--font-body)', fill: '#94A3B8' }} tickLine={false} axisLine={false} />
               <YAxis tick={{ fontSize: 11, fill: '#94A3B8' }} tickLine={false} axisLine={false} tickFormatter={v => `$${v}`} />
               <Tooltip formatter={v => [`$${v}`, 'Revenue']} contentStyle={{ fontFamily: 'var(--font-body)', fontSize: 12, borderRadius: 8 }} />
-              <Line type="monotone" dataKey="revenue" stroke="#06B6A0" strokeWidth={2.5} dot={{ fill: '#06B6A0', r: 4 }} />
+              <Line type="monotone" dataKey="revenue" stroke="#14B8A6" strokeWidth={2.5} dot={{ fill: '#14B8A6', r: 4 }} />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>

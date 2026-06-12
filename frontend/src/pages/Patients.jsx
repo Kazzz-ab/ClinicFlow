@@ -72,14 +72,14 @@ function PatientModal({ patient, onClose, onSave }) {
       {options ? (
         <select value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })}
           style={{ fontFamily: 'var(--font-body)' }}
-          className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6]/20 focus:border-[#0077B6]">
+          className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]">
           <option value="">Select…</option>
           {options.map(o => <option key={o} value={o}>{o}</option>)}
         </select>
       ) : (
         <input type={type} value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })}
           style={{ fontFamily: 'var(--font-body)' }}
-          className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6]/20 focus:border-[#0077B6]" />
+          className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]" />
       )}
     </div>
   );
@@ -113,7 +113,7 @@ function PatientModal({ patient, onClose, onSave }) {
             <motion.button type="submit" disabled={saving}
               whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
               className="px-5 py-2.5 rounded-xl text-white text-sm font-semibold disabled:opacity-60"
-              style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)', fontFamily: 'var(--font-body)' }}>
+              style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)', fontFamily: 'var(--font-body)' }}>
               {saving ? 'Saving…' : isEdit ? 'Save Changes' : 'Add Patient'}
             </motion.button>
           </div>
@@ -166,7 +166,7 @@ export default function Patients() {
         <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
           onClick={() => setModal('new')}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold"
-          style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)', fontFamily: 'var(--font-body)', boxShadow: '0 4px 14px rgba(0,119,182,0.25)' }}>
+          style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)', fontFamily: 'var(--font-body)', boxShadow: '0 4px 14px rgba(5,150,105,0.25)' }}>
           <Plus size={16} /> Add Patient
         </motion.button>
       </div>
@@ -177,7 +177,7 @@ export default function Patients() {
         <input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           placeholder="Search by name…"
           style={{ fontFamily: 'var(--font-body)' }}
-          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6]/20 focus:border-[#0077B6]" />
+          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]" />
       </div>
 
       {/* Table */}
@@ -205,7 +205,7 @@ export default function Patients() {
                 className="grid grid-cols-12 px-6 py-4 border-b border-[#F8FAFC] last:border-0 hover:bg-[#F8FAFC] transition-colors items-center">
                 <div className="col-span-4 flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
-                    style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)' }}>
+                    style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)' }}>
                     {p.firstName.charAt(0)}
                   </div>
                   <div>

@@ -8,12 +8,12 @@ export default {
         body: ['DM Sans', 'system-ui', 'sans-serif'],
       },
       colors: {
-        primary: { DEFAULT: '#0077B6', light: '#00B4D8' },
-        accent: '#06B6A0',
+        primary: { DEFAULT: '#059669', light: '#34D399' },
+        accent: '#14B8A6',
       },
       boxShadow: {
         card: '0 2px 12px rgba(0,0,0,0.05)',
-        'card-hover': '0 24px 48px rgba(0,119,182,0.18)',
+        'card-hover': '0 24px 48px rgba(5,150,105,0.18)',
       },
     },
   },

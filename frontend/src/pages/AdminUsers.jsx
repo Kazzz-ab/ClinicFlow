@@ -8,8 +8,8 @@ const ROLES = ['admin', 'doctor', 'receptionist'];
 
 const ROLE_COLORS = {
   admin: { bg: 'rgba(124,58,237,0.1)', color: '#7C3AED' },
-  doctor: { bg: 'rgba(0,119,182,0.1)', color: '#0077B6' },
-  receptionist: { bg: 'rgba(6,182,160,0.1)', color: '#06B6A0' },
+  doctor: { bg: 'rgba(5,150,105,0.1)', color: '#059669' },
+  receptionist: { bg: 'rgba(20,184,166,0.1)', color: '#14B8A6' },
 };
 
 function RoleBadge({ role }) {
@@ -65,19 +65,19 @@ function UserModal({ user, onClose, onSave }) {
                 <label style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text)', display: 'block', marginBottom: '0.35rem' }}>Name</label>
                 <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required
                   style={{ fontFamily: 'var(--font-body)' }}
-                  className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6]/20 focus:border-[#0077B6]" />
+                  className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]" />
               </div>
               <div>
                 <label style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text)', display: 'block', marginBottom: '0.35rem' }}>Email</label>
                 <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required
                   style={{ fontFamily: 'var(--font-body)' }}
-                  className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6]/20 focus:border-[#0077B6]" />
+                  className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]" />
               </div>
               <div>
                 <label style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text)', display: 'block', marginBottom: '0.35rem' }}>Password</label>
                 <input type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required minLength={8}
                   style={{ fontFamily: 'var(--font-body)' }}
-                  className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6]/20 focus:border-[#0077B6]" />
+                  className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]" />
               </div>
             </>
           )}
@@ -90,7 +90,7 @@ function UserModal({ user, onClose, onSave }) {
             <label style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text)', display: 'block', marginBottom: '0.35rem' }}>Role</label>
             <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}
               style={{ fontFamily: 'var(--font-body)' }}
-              className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6]/20">
+              className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20">
               {ROLES.map(r => <option key={r} value={r}>{r.charAt(0).toUpperCase() + r.slice(1)}</option>)}
             </select>
           </div>
@@ -101,7 +101,7 @@ function UserModal({ user, onClose, onSave }) {
               style={{ fontFamily: 'var(--font-body)' }}>Cancel</button>
             <motion.button type="submit" disabled={saving} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
               className="px-5 py-2.5 rounded-xl text-white text-sm font-semibold disabled:opacity-60"
-              style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)', fontFamily: 'var(--font-body)' }}>
+              style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)', fontFamily: 'var(--font-body)' }}>
               {saving ? 'Saving…' : isEdit ? 'Update Role' : 'Create User'}
             </motion.button>
           </div>
@@ -138,7 +138,7 @@ export default function AdminUsers() {
       <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #7C3AED, #0077B6)' }}>
+            style={{ background: 'linear-gradient(135deg, #7C3AED, #059669)' }}>
             <ShieldCheck size={18} className="text-white" />
           </div>
           <div>
@@ -151,7 +151,7 @@ export default function AdminUsers() {
         <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
           onClick={() => setModal('new')}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold"
-          style={{ background: 'linear-gradient(135deg, #7C3AED, #0077B6)', fontFamily: 'var(--font-body)', boxShadow: '0 4px 14px rgba(124,58,237,0.25)' }}>
+          style={{ background: 'linear-gradient(135deg, #7C3AED, #059669)', fontFamily: 'var(--font-body)', boxShadow: '0 4px 14px rgba(124,58,237,0.25)' }}>
           <Plus size={16} /> Add User
         </motion.button>
       </motion.div>
@@ -175,7 +175,7 @@ export default function AdminUsers() {
                 className="grid grid-cols-12 px-6 py-4 border-b border-[#F8FAFC] last:border-0 hover:bg-[#F8FAFC] transition-colors items-center">
                 <div className="col-span-5 flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
-                    style={{ background: 'linear-gradient(135deg, #7C3AED, #0077B6)' }}>
+                    style={{ background: 'linear-gradient(135deg, #7C3AED, #059669)' }}>
                     {u.name.charAt(0)}
                   </div>
                   <div>
@@ -193,7 +193,7 @@ export default function AdminUsers() {
                   {u.id !== me?.id && (
                     <>
                       <button onClick={() => setModal(u)} title="Change role"
-                        className="p-1.5 rounded-lg hover:bg-[#F1F5F9] text-[#94A3B8] hover:text-[#0077B6] transition-colors">
+                        className="p-1.5 rounded-lg hover:bg-[#F1F5F9] text-[#94A3B8] hover:text-[#059669] transition-colors">
                         <Pencil size={14} />
                       </button>
                       <button onClick={() => handleDelete(u.id)} title="Remove user"

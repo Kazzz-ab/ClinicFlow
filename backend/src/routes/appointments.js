@@ -78,6 +78,14 @@ router.put('/:id', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
   try {
+    // Admin and receptionist can cancel any appointment; doctor can only cancel their own
+    if (req.user.role === 'doctor') {
+      const doctorRecord = await prisma.doctor.findUnique({ where: { userId: req.user.id } });
+      const appt = await prisma.appointment.findUnique({ where: { id: req.params.id } });
+      if (!doctorRecord || !appt || appt.doctorId !== doctorRecord.id) {
+        return res.status(403).json({ message: 'Forbidden' });
+      }
+    }
     await prisma.appointment.update({ where: { id: req.params.id }, data: { status: 'cancelled' } });
     res.status(204).end();
   } catch (err) { next(err); }

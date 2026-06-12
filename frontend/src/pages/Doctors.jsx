@@ -77,7 +77,7 @@ function DoctorModal({ doctor, onClose, onSave }) {
               <label style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text)', display: 'block', marginBottom: '0.35rem' }}>{label}</label>
               <input type={type} value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                 style={{ fontFamily: 'var(--font-body)' }}
-                className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6]/20 focus:border-[#0077B6]" />
+                className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]" />
             </div>
           ))}
           <div>
@@ -92,7 +92,7 @@ function DoctorModal({ doctor, onClose, onSave }) {
               style={{ fontFamily: 'var(--font-body)' }}>Cancel</button>
             <motion.button type="submit" disabled={saving} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
               className="px-5 py-2.5 rounded-xl text-white text-sm font-semibold disabled:opacity-60"
-              style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)', fontFamily: 'var(--font-body)' }}>
+              style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)', fontFamily: 'var(--font-body)' }}>
               {saving ? 'Saving…' : isEdit ? 'Save' : 'Add Doctor'}
             </motion.button>
           </div>
@@ -130,7 +130,7 @@ export default function Doctors() {
         <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
           onClick={() => setModal('new')}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold"
-          style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)', fontFamily: 'var(--font-body)', boxShadow: '0 4px 14px rgba(0,119,182,0.25)' }}>
+          style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)', fontFamily: 'var(--font-body)', boxShadow: '0 4px 14px rgba(5,150,105,0.25)' }}>
           <Plus size={16} /> Add Doctor
         </motion.button>
       </div>
@@ -147,14 +147,14 @@ export default function Doctors() {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg"
-                    style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)' }}>
+                    style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)' }}>
                     {doc.user?.name?.charAt(0) || 'D'}
                   </div>
                   <div>
                     <p style={{ fontFamily: 'var(--font-body)', fontWeight: 700, color: 'var(--text)', fontSize: '0.93rem' }}>
                       {doc.user?.name || 'Dr. —'}
                     </p>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.77rem', color: '#0077B6' }}>{doc.specialization}</p>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.77rem', color: '#059669' }}>{doc.specialization}</p>
                   </div>
                 </div>
                 <CardMenu onEdit={() => setModal(doc)} onDelete={() => handleDelete(doc._id)} />
@@ -166,7 +166,7 @@ export default function Doctors() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.77rem', color: 'var(--muted)' }}>Consultation Fee</span>
-                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', fontWeight: 700, color: '#06B6A0' }}>${doc.consultationFee}</span>
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', fontWeight: 700, color: '#14B8A6' }}>${doc.consultationFee}</span>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 text-xs text-[#64748B]" style={{ fontFamily: 'var(--font-body)' }}>

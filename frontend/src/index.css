@@ -5,13 +5,20 @@
 :root {
   --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
-  --primary: #0077B6;
-  --primary-light: #00B4D8;
-  --accent: #06B6A0;
-  --bg: #F0F7FF;
+  --primary: #059669;
+  --primary-light: #34D399;
+  --accent: #14B8A6;
+  --bg: #F0FDF9;
   --surface: #FFFFFF;
-  --text: #0D1B2A;
+  --text: #0A201C;
   --muted: #64748B;
+}
+
+[data-theme="dark"] {
+  --bg: #0A201C;
+  --surface: #16302A;
+  --text: #E2E8F0;
+  --muted: #94A3B8;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -34,7 +41,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .card-3d:hover {
   transform: translateY(-6px) rotateX(3deg);
-  box-shadow: 0 24px 48px rgba(0, 119, 182, 0.18), 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 24px 48px rgba(5, 150, 105, 0.18), 0 4px 12px rgba(0,0,0,0.08);
 }
 
 /* Floating depth animation */
@@ -46,7 +53,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #0077B6, #06B6A0);
+  background: linear-gradient(135deg, #059669, #14B8A6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

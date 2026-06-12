@@ -1,10 +1,9 @@
-// All UI copy and brand tokens live here.
-// Swap this file to repurpose the codebase for any vertical.
+// Clinio brand tokens and UI copy.
 export const brand = {
-  name: 'ClinicFlow',
-  tagline: 'Modern clinic management',
+  name: 'Clinio',
+  tagline: 'Clinic care, organized',
   // Tailwind color tokens (must exist in tailwind.config.js)
-  primary: 'blue',
+  primary: 'emerald',
   accent: 'teal',
 };
 

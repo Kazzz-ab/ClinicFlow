@@ -6,8 +6,8 @@ import api from '../lib/api.js';
 import { useAuth } from '../hooks/useAuth.js';
 
 const STATUS_COLORS = {
-  confirmed: { label: 'Confirmed', color: '#0077B6', bg: 'rgba(0,119,182,0.1)' },
-  completed: { label: 'Completed', color: '#06B6A0', bg: 'rgba(6,182,160,0.1)' },
+  confirmed: { label: 'Confirmed', color: '#059669', bg: 'rgba(5,150,105,0.1)' },
+  completed: { label: 'Completed', color: '#14B8A6', bg: 'rgba(20,184,166,0.1)' },
   scheduled: { label: 'Scheduled', color: '#7C3AED', bg: 'rgba(124,58,237,0.1)' },
   cancelled: { label: 'Cancelled', color: '#64748B', bg: 'rgba(100,116,139,0.1)' },
   'no-show': { label: 'No-show', color: '#EA580C', bg: 'rgba(234,88,12,0.1)' },
@@ -34,8 +34,8 @@ export default function Dashboard() {
   }, []);
 
   const statCards = stats ? [
-    { label: 'Total Patients', value: stats.totalPatients.toLocaleString(), change: 'registered', icon: Users, color: '#0077B6', bg: 'rgba(0,119,182,0.08)', trend: 'up' },
-    { label: 'Active Doctors', value: stats.activeDoctors, change: 'on staff', icon: Stethoscope, color: '#06B6A0', bg: 'rgba(6,182,160,0.08)', trend: 'up' },
+    { label: 'Total Patients', value: stats.totalPatients.toLocaleString(), change: 'registered', icon: Users, color: '#059669', bg: 'rgba(5,150,105,0.08)', trend: 'up' },
+    { label: 'Active Doctors', value: stats.activeDoctors, change: 'on staff', icon: Stethoscope, color: '#14B8A6', bg: 'rgba(20,184,166,0.08)', trend: 'up' },
     { label: "Today's Appointments", value: stats.todayAppointments, change: `${stats.appointmentBreakdown?.scheduled || 0} pending`, icon: Calendar, color: '#7C3AED', bg: 'rgba(124,58,237,0.08)', trend: 'neutral' },
     { label: 'Overdue Invoices', value: stats.overdueInvoices, change: `${stats.pendingInvoices} pending`, icon: FileText, color: '#EA580C', bg: 'rgba(234,88,12,0.08)', trend: stats.overdueInvoices > 0 ? 'down' : 'up' },
   ] : [];
@@ -70,8 +70,8 @@ export default function Dashboard() {
                 </div>
                 <span className="text-xs font-medium px-2.5 py-1 rounded-full"
                   style={{
-                    background: stat.trend === 'up' ? 'rgba(6,182,160,0.1)' : stat.trend === 'down' ? 'rgba(234,88,12,0.1)' : 'rgba(124,58,237,0.1)',
-                    color: stat.trend === 'up' ? '#06B6A0' : stat.trend === 'down' ? '#EA580C' : '#7C3AED',
+                    background: stat.trend === 'up' ? 'rgba(20,184,166,0.1)' : stat.trend === 'down' ? 'rgba(234,88,12,0.1)' : 'rgba(124,58,237,0.1)',
+                    color: stat.trend === 'up' ? '#14B8A6' : stat.trend === 'down' ? '#EA580C' : '#7C3AED',
                     fontFamily: 'var(--font-body)',
                   }}>
                   {stat.change}
@@ -113,7 +113,7 @@ export default function Dashboard() {
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 + i * 0.07 }}
                   className="px-6 py-4 flex items-center gap-4 hover:bg-[#F8FAFC] transition-colors">
                   <div className="w-14 text-center flex-shrink-0">
-                    <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#0077B6', fontSize: '0.95rem' }}>
+                    <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, color: '#059669', fontSize: '0.95rem' }}>
                       {appt.startTime}
                     </span>
                   </div>
@@ -138,7 +138,7 @@ export default function Dashboard() {
         <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4, duration: 0.5 }}
           className="space-y-4">
           <div className="rounded-2xl p-5"
-            style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)', boxShadow: '0 8px 32px rgba(0,119,182,0.25)' }}>
+            style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)', boxShadow: '0 8px 32px rgba(5,150,105,0.25)' }}>
             <div className="flex items-center gap-2 mb-3">
               <TrendingUp size={16} className="text-white/80" />
               <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.82rem', fontWeight: 500 }} className="text-white/80">
@@ -164,8 +164,8 @@ export default function Dashboard() {
               Status Overview
             </h3>
             {[
-              { label: 'Completed', key: 'completed', icon: CheckCircle2, color: '#06B6A0' },
-              { label: 'Confirmed', key: 'confirmed', icon: Calendar, color: '#0077B6' },
+              { label: 'Completed', key: 'completed', icon: CheckCircle2, color: '#14B8A6' },
+              { label: 'Confirmed', key: 'confirmed', icon: Calendar, color: '#059669' },
               { label: 'No-shows', key: 'no-show', icon: AlertCircle, color: '#EA580C' },
             ].map((s) => (
               <div key={s.label} className="flex items-center gap-3 mb-3 last:mb-0">

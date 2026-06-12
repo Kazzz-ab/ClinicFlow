@@ -29,7 +29,7 @@ router.post('/', requireRole('admin', 'receptionist'), async (req, res, next) =>
   try {
     const { patient, appointment, lineItems, subtotal, tax, total, status, dueDate, notes } = req.body;
     const count = await prisma.invoice.count();
-    const invoiceNumber = `INV-CF-${String(count + 1).padStart(5, '0')}`;
+    const invoiceNumber = `INV-CLN-${String(count + 1).padStart(5, '0')}`;
     const invoice = await prisma.invoice.create({
       data: {
         patientId: patient,

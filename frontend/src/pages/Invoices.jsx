@@ -7,8 +7,8 @@ import api from '../lib/api.js';
 
 const STATUS = {
   draft: { bg: 'rgba(100,116,139,0.1)', color: '#64748B', label: 'Draft' },
-  sent: { bg: 'rgba(0,119,182,0.1)', color: '#0077B6', label: 'Sent' },
-  paid: { bg: 'rgba(6,182,160,0.1)', color: '#06B6A0', label: 'Paid' },
+  sent: { bg: 'rgba(5,150,105,0.1)', color: '#059669', label: 'Sent' },
+  paid: { bg: 'rgba(20,184,166,0.1)', color: '#14B8A6', label: 'Paid' },
   overdue: { bg: 'rgba(234,88,12,0.1)', color: '#EA580C', label: 'Overdue' },
   cancelled: { bg: 'rgba(100,116,139,0.08)', color: '#94A3B8', label: 'Cancelled' },
 };
@@ -65,7 +65,7 @@ function InvoiceModal({ onClose, onSave }) {
               <label style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text)', display: 'block', marginBottom: '0.35rem' }}>Patient</label>
               <select value={form.patient} onChange={(e) => setForm({ ...form, patient: e.target.value })} required
                 style={{ fontFamily: 'var(--font-body)' }}
-                className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6]/20">
+                className="w-full px-3 py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20">
                 <option value="">Select…</option>
                 {patients.map(p => <option key={p._id} value={p._id}>{p.firstName} {p.lastName}</option>)}
               </select>
@@ -89,7 +89,7 @@ function InvoiceModal({ onClose, onSave }) {
             <div className="flex items-center justify-between mb-2">
               <label style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text)' }}>Line Items</label>
               <button type="button" onClick={() => setLineItems([...lineItems, { description: '', quantity: 1, unitPrice: '' }])}
-                className="text-xs text-[#0077B6] hover:underline" style={{ fontFamily: 'var(--font-body)' }}>+ Add line</button>
+                className="text-xs text-[#059669] hover:underline" style={{ fontFamily: 'var(--font-body)' }}>+ Add line</button>
             </div>
             <div className="space-y-2">
               <div className="grid grid-cols-12 gap-2 text-xs text-[#94A3B8] font-semibold uppercase px-1" style={{ fontFamily: 'var(--font-body)' }}>
@@ -133,7 +133,7 @@ function InvoiceModal({ onClose, onSave }) {
               style={{ fontFamily: 'var(--font-body)' }}>Cancel</button>
             <motion.button type="submit" disabled={saving} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
               className="px-5 py-2.5 rounded-xl text-white text-sm font-semibold disabled:opacity-60"
-              style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)', fontFamily: 'var(--font-body)' }}>
+              style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)', fontFamily: 'var(--font-body)' }}>
               {saving ? 'Creating…' : 'Create Invoice'}
             </motion.button>
           </div>
@@ -261,7 +261,7 @@ export default function Invoices() {
           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
             onClick={() => setModal(true)}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold"
-            style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)', fontFamily: 'var(--font-body)', boxShadow: '0 4px 14px rgba(0,119,182,0.25)' }}>
+            style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)', fontFamily: 'var(--font-body)', boxShadow: '0 4px 14px rgba(5,150,105,0.25)' }}>
             <Plus size={16} /> New Invoice
           </motion.button>
         </div>
@@ -273,14 +273,14 @@ export default function Invoices() {
           <motion.div
             initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
             className="flex items-center gap-3 mb-4 px-4 py-3 rounded-xl"
-            style={{ background: 'rgba(0,119,182,0.06)', border: '1px solid rgba(0,119,182,0.18)' }}>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', fontWeight: 600, color: '#0077B6' }}>
+            style={{ background: 'rgba(5,150,105,0.06)', border: '1px solid rgba(5,150,105,0.18)' }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', fontWeight: 600, color: '#059669' }}>
               {selected.size} selected
             </span>
             <span className="text-[#CBD5E1]">|</span>
             <select value={bulkStatus} onChange={(e) => setBulkStatus(e.target.value)}
               style={{ fontFamily: 'var(--font-body)' }}
-              className="px-3 py-1.5 rounded-lg border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0077B6]/20">
+              className="px-3 py-1.5 rounded-lg border border-[#E2E8F0] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#059669]/20">
               <option value="">Set status…</option>
               {Object.entries(STATUS).map(([v, { label }]) => <option key={v} value={v}>{label}</option>)}
             </select>
@@ -289,7 +289,7 @@ export default function Invoices() {
               onClick={handleBulkUpdate}
               disabled={!bulkStatus || bulking}
               className="px-4 py-1.5 rounded-lg text-white text-sm font-semibold disabled:opacity-50"
-              style={{ background: 'linear-gradient(135deg, #0077B6, #06B6A0)', fontFamily: 'var(--font-body)' }}>
+              style={{ background: 'linear-gradient(135deg, #059669, #14B8A6)', fontFamily: 'var(--font-body)' }}>
               {bulking ? 'Updating…' : 'Apply'}
             </motion.button>
             <button onClick={() => setSelected(new Set())} className="ml-auto text-[#94A3B8] hover:text-[#64748B]">
@@ -303,8 +303,8 @@ export default function Invoices() {
         <div className="grid grid-cols-12 px-6 py-3 border-b border-[#F1F5F9] text-xs font-semibold text-[#94A3B8] uppercase tracking-wide"
           style={{ fontFamily: 'var(--font-body)' }}>
           <div className="col-span-1 flex items-center">
-            <button onClick={toggleAll} className="text-[#94A3B8] hover:text-[#0077B6] transition-colors">
-              {allSelected ? <CheckSquare size={15} style={{ color: '#0077B6' }} /> : someSelected ? <SquareCheck size={15} style={{ color: '#0077B6' }} /> : <Square size={15} />}
+            <button onClick={toggleAll} className="text-[#94A3B8] hover:text-[#059669] transition-colors">
+              {allSelected ? <CheckSquare size={15} style={{ color: '#059669' }} /> : someSelected ? <SquareCheck size={15} style={{ color: '#059669' }} /> : <Square size={15} />}
             </button>
           </div>
           <div className="col-span-2">Invoice #</div>
@@ -327,13 +327,13 @@ export default function Invoices() {
             {invoices.map((inv) => (
               <motion.div key={inv._id}
                 variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
-                className={`grid grid-cols-12 px-6 py-4 border-b border-[#F8FAFC] last:border-0 transition-colors items-center ${selected.has(inv._id) ? 'bg-[#EFF6FF]' : 'hover:bg-[#F8FAFC]'}`}>
+                className={`grid grid-cols-12 px-6 py-4 border-b border-[#F8FAFC] last:border-0 transition-colors items-center ${selected.has(inv._id) ? 'bg-[#ECFDF5]' : 'hover:bg-[#F8FAFC]'}`}>
                 <div className="col-span-1">
-                  <button onClick={() => toggleSelect(inv._id)} className="text-[#94A3B8] hover:text-[#0077B6] transition-colors">
-                    {selected.has(inv._id) ? <CheckSquare size={15} style={{ color: '#0077B6' }} /> : <Square size={15} />}
+                  <button onClick={() => toggleSelect(inv._id)} className="text-[#94A3B8] hover:text-[#059669] transition-colors">
+                    {selected.has(inv._id) ? <CheckSquare size={15} style={{ color: '#059669' }} /> : <Square size={15} />}
                   </button>
                 </div>
-                <div className="col-span-2" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 600, color: '#0077B6' }}>{inv.invoiceNumber}</div>
+                <div className="col-span-2" style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 600, color: '#059669' }}>{inv.invoiceNumber}</div>
                 <div className="col-span-3" style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--text)' }}>
                   {inv.patient?.firstName} {inv.patient?.lastName}
                 </div>
@@ -341,7 +341,7 @@ export default function Invoices() {
                   {inv.dueDate ? format(new Date(inv.dueDate), 'dd MMM yyyy') : '—'}
                 </div>
                 <div className="col-span-1 flex items-center gap-1">
-                  <DollarSign size={13} className="text-[#06B6A0]" />
+                  <DollarSign size={13} className="text-[#14B8A6]" />
                   <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.88rem', color: 'var(--text)' }}>
                     {inv.total?.toLocaleString()}
                   </span>
@@ -351,7 +351,7 @@ export default function Invoices() {
                 </div>
                 <div className="col-span-1 flex justify-end">
                   <button onClick={() => exportInvoicePDF(inv)} title="Download PDF"
-                    className="p-1.5 rounded-lg hover:bg-[#F1F5F9] text-[#94A3B8] hover:text-[#0077B6] transition-colors">
+                    className="p-1.5 rounded-lg hover:bg-[#F1F5F9] text-[#94A3B8] hover:text-[#059669] transition-colors">
                     <Download size={14} />
                   </button>
                 </div>
